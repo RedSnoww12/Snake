@@ -1,26 +1,26 @@
-CC        :=        g++
+CC	:=	g++
 
-RM        :=        rm -f
+RM	:=	rm -f
 
-NAME        :=        snake
+NAME	:=	snake
 
-SRC        :=        ./src/*.cpp
+SRC	:=	./src/*.cpp
 
-LFLAGS        :=        -lsfml-graphics -lsfml-window -lsfml-system
+LFLAGS	:=	-lsfml-graphics -lsfml-window -lsfml-system
 
-OBJ        :=        $(SRC:.cpp=.o)
+OBJ	:=	$(SRC:.cpp=.o)
 
-all:        $(NAME)
+all:	$(NAME)
 
-$(NAME):    $(OBJ)
-        $(CC)  -o $(NAME) $(OBJ) $(LFLAGS)
+$(NAME):	$(OBJ)
+		$(CC)  -o $(NAME) $(OBJ) $(LFLAGS)
 
-clean:
-        $(RM) $(OBJ)
+clean:	$(RM) $(OBJ)
 
 fclean:        clean
-        $(RM) $(NAME)
+	$(RM) $(NAME)
 
-re:        fclean all
+re:	fclean all
 
-.PHONY:        all clean fclean re
+
+.PHONY:	all clean fclean re
