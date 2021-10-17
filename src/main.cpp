@@ -9,11 +9,17 @@ int main()
   sf::RenderWindow window(sf::VideoMode(WIDTH,HEIGHT), "Snake !");
   sf::RectangleShape rectangle(sf::Vector2f(10, 10));
   rectangle.setFillColor(sf::Color::Blue);
+  sf::CircleShape shape(5.f);
+  shape.setFillColor(sf::Color::Red);
 
   // window.setFramerateLimit(60);
 
   float x = 20, y = 20;
-  rectangle.setPosition(x,y);  
+  rectangle.setPosition(x,y);
+  shape.setPosition(400.f,400.f);
+  
+  window.draw(shape);
+  window.display();
   
   while (window.isOpen())
     {
@@ -32,48 +38,64 @@ int main()
 
       if (x <= 790) {
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-	  while (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && x <= 790) {
+	  while ( x <= 790) {
 	    rectangle.setPosition(x,y);
 	    window.clear();
 	    window.draw(rectangle);
+	    window.draw(shape);
 	    window.display();
 	    x = x + VITESSE;
+	    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))) {
+	      break;
+	    }
 	  }
 	}
       }
 
       if (y <= 790) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-	  while (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && y <= 790) {
+	  while ( y <= 790) {
 	    rectangle.setPosition(x,y);
 	    window.clear();
 	    window.draw(rectangle);
+	    window.draw(shape);
 	    window.display();
 	    y = y + VITESSE;
+	    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))) {
+	      break;
+	    }
 	  }
 	}
       }
 
       if (x >= 0) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-	  while (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && x >= 0) {
+	  while (x >= 0) {
 	    rectangle.setPosition(x,y);
 	    window.clear();
 	    window.draw(rectangle);
+	    window.draw(shape);
 	    window.display();
 	    x = x - VITESSE;
+	    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))) {
+	      break;
+	  }
 	  }
 	}
       }
 
       if (y >= 0) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-	  while (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && y >= 0) {
+	  while (y >= 0) {
 	    rectangle.setPosition(x,y);
 	    window.clear();
 	    window.draw(rectangle);
+	    window.draw(shape);
 	    window.display();
 	    y = y - VITESSE;
+	    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))) {
+	      break;
+	    }
 	  }
 	}
       }
