@@ -1,65 +1,82 @@
 #include <SFML/Graphics.hpp>
 
-
 #define WIDTH 800
 #define HEIGHT 800
+#define VITESSE 0.05
 
 int main()
 {
   sf::RenderWindow window(sf::VideoMode(WIDTH,HEIGHT), "Snake !");
-  sf::CircleShape shape(10.f);
-  shape.setFillColor(sf::Color::Blue);
-  shape.setPosition(10.f,10.f);
+  sf::RectangleShape rectangle(sf::Vector2f(10, 10));
+  rectangle.setFillColor(sf::Color::Blue);
 
   // window.setFramerateLimit(60);
 
-  int x = 10, y = 10;
+  float x = 20, y = 20;
+  rectangle.setPosition(x,y);  
   
   while (window.isOpen())
     {
       sf::Event event;
-      while (window.pollEvent(event))
-    {
-      if (event.type == sf::Event::Closed)
-        window.close();
-    }
-      if (x == 10) {
-    while (x != 780) {
-      shape.setPosition(x,10.f);
-      window.clear();
-      window.draw(shape);
-      window.display();
-      x = x + 1;
-    }
+      while (window.pollEvent(event)) {
+	if (event.type == sf::Event::Closed)
+	  window.close();
       }
-      if (y == 10) {
-    while (y != 780) {
-      shape.setPosition(x,y);
-      window.clear();
-      window.draw(shape);
+
+      /*sf::SoundBuffer buffer;
+      if (!buffer.loadFromFile("sound.wav"))
+        return -1;*/
+      
+      window.draw(rectangle);
       window.display();
-      y = y + 1;
-    }
+
+      if (x <= 790) {
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+	  while (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && x <= 790) {
+	    rectangle.setPosition(x,y);
+	    window.clear();
+	    window.draw(rectangle);
+	    window.display();
+	    x = x + VITESSE;
+	  }
+	}
       }
-      if (x == 780) {
-    while (x != 10) {
-      shape.setPosition(x,y);
-      window.clear();
-      window.draw(shape);
-      window.display();
-      x = x - 1;
-    }
+
+      if (y <= 790) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+	  while (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && y <= 790) {
+	    rectangle.setPosition(x,y);
+	    window.clear();
+	    window.draw(rectangle);
+	    window.display();
+	    y = y + VITESSE;
+	  }
+	}
       }
-      if (y == 780) {
-    while (y != 10) {
-      shape.setPosition(x,y);
-      window.clear();
-      window.draw(shape);
-      window.display();
-      y = y - 1;
-    }
+
+      if (x >= 0) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+	  while (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && x >= 0) {
+	    rectangle.setPosition(x,y);
+	    window.clear();
+	    window.draw(rectangle);
+	    window.display();
+	    x = x - VITESSE;
+	  }
+	}
       }
-    window.clear();
+
+      if (y >= 0) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+	  while (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && y >= 0) {
+	    rectangle.setPosition(x,y);
+	    window.clear();
+	    window.draw(rectangle);
+	    window.display();
+	    y = y - VITESSE;
+	  }
+	}
+      }
     }
 
   return 0;
