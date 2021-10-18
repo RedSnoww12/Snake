@@ -2,17 +2,17 @@
 
 #define WIDTH 800
 #define HEIGHT 800
-#define VITESSE 0.05
+#define VITESSE 5
 
 int main()
 {
   sf::RenderWindow window(sf::VideoMode(WIDTH,HEIGHT), "Snake !");
+  window.setFramerateLimit(60);
+  
   sf::RectangleShape rectangle(sf::Vector2f(10, 10));
   rectangle.setFillColor(sf::Color::Blue);
   sf::CircleShape shape(5.f);
   shape.setFillColor(sf::Color::Red);
-
-  // window.setFramerateLimit(60);
 
   float x = 20, y = 20;
   rectangle.setPosition(x,y);
