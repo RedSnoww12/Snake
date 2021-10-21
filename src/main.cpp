@@ -7,7 +7,7 @@ using namespace sf;
 
 int size = 30;
 int width = size*size, height = size*size;
-int num = 50;
+int num = 3;
 int dir = 1;
 
 struct Snake{
