@@ -20,7 +20,7 @@ struct Fruit{
   int x,y;
 }f;
 
-void Action(){
+int Action(){
 
   for(int i = num; i>0 ; i--){
     
@@ -40,6 +40,18 @@ void Action(){
       f.x = rand()%size;
       f.y = rand()%size;
     }
+
+  if (s[0].x < 0) s[0].x = size;
+  if (s[0].x > size) s[0].x = 0;
+  if (s[0].y < 0) s[0].y = size;
+  if (s[0].y > size) s[0].y = 0;
+
+  for(int i = 1; i<num; i++)
+    {
+      if (s[0].x == s[i].x && s[0].y == s[i].y) return 1;
+    }
+  
+  return 0;
 }
 
 
@@ -72,7 +84,7 @@ int main () {
     
     if (timer.getElapsedTime().asMilliseconds()>200)
       {
-	Action();
+	if(Action() == 1) app.close();
 	timer.restart();
       }
     
