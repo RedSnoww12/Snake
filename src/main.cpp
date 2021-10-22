@@ -59,6 +59,9 @@ int main () {
   
   RenderWindow app(VideoMode(width,height),"Snake", Style::Titlebar);
   app.setFramerateLimit(60);
+
+  Image fond;
+  fond.loadFromFile("../img/fond.jpg");
   
   RectangleShape snake(Vector2f(size,size));
   snake.setFillColor(Color::Green);
@@ -88,10 +91,14 @@ int main () {
 	timer.restart();
       }
     
-    if(Keyboard::isKeyPressed(Keyboard::Up)) dir = 0;
-    if(Keyboard::isKeyPressed(Keyboard::Right)) dir = 1;
-    if(Keyboard::isKeyPressed(Keyboard::Down)) dir = 2;
-    if(Keyboard::isKeyPressed(Keyboard::Left)) dir = 3;
+    if(dir != 2)
+      if(Keyboard::isKeyPressed(Keyboard::Up)) dir = 0;
+    if(dir != 3)
+      if(Keyboard::isKeyPressed(Keyboard::Right)) dir = 1;
+    if(dir != 0)
+      if(Keyboard::isKeyPressed(Keyboard::Down)) dir = 2;
+    if(dir != 1)
+      if(Keyboard::isKeyPressed(Keyboard::Left)) dir = 3;
     
     app.clear();
     
