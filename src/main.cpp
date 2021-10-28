@@ -62,12 +62,12 @@ int main () {
   app.setFramerateLimit(60);
 
   Texture fond;
-  fond.loadFromFile("/home/sacha/Documents/EFREI/Snake/img/fond.jpg");
+  fond.loadFromFile("./img/fond.jpg");
   Sprite sprite;
   sprite.setTexture(fond);
 
   Texture map;
-  map.loadFromFile("/home/sacha/Documents/EFREI/Snake/img/map.png");
+  map.loadFromFile("./img/map.png");
   Sprite sprite_map;
   sprite_map.setTexture(map);
   
