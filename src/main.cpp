@@ -56,18 +56,29 @@ int Action(){
 
 
 int main () {
-  
+
+  int check_key = 0;
   RenderWindow app(VideoMode(width,height),"Snake", Style::Titlebar);
   app.setFramerateLimit(60);
 
-  Image fond;
-  fond.loadFromFile("../img/fond.jpg");
+  Texture fond;
+  fond.loadFromFile("/home/sacha/Documents/EFREI/Snake/img/fond.jpg");
+  Sprite sprite;
+  sprite.setTexture(fond);
+
+  Texture map;
+  map.loadFromFile("/home/sacha/Documents/EFREI/Snake/img/map.png");
+  Sprite sprite_map;
+  sprite_map.setTexture(map);
   
   RectangleShape snake(Vector2f(size,size));
   snake.setFillColor(Color::Green);
   
   RectangleShape fruit(Vector2f(size,size));
   fruit.setFillColor(Color::Red);
+
+  sprite.setScale(0.5, 0.8);
+  sprite_map.setScale(4, 4);
   
   Clock timer;
   
@@ -84,8 +95,15 @@ int main () {
       break;
     }
   
-    
-    if (timer.getElapsedTime().asMilliseconds()>200)
+    while(check_key == 0)
+      {
+	if (Keyboard::isKeyPressed(Keyboard::Space))
+	  check_key = 1;
+	app.clear();
+	app.draw(sprite);
+	app.display();
+      }
+    if (timer.getElapsedTime().asMilliseconds()>125)
       {
 	if(Action() == 1) app.close();
 	timer.restart();
@@ -101,7 +119,7 @@ int main () {
       if(Keyboard::isKeyPressed(Keyboard::Left)) dir = 3;
     
     app.clear();
-    
+    app.draw(sprite_map);
     for (int i = 0; i < num; i++) {
       snake.setPosition(s[i].x*size, s[i].y*size);
       app.draw(snake);
