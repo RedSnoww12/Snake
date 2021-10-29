@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include <cstdlib>
 
@@ -36,7 +37,7 @@ int Action(){
   
   if (s[0].x == f.x && s[0].y == f.y)
     {
-      num++;
+      num = num + 1;
       f.x = rand()%size;
       f.y = rand()%size;
     }
@@ -58,6 +59,15 @@ int Action(){
 int main () {
 
   int check_key = 0;
+
+  SoundBuffer buffer;
+  buffer.loadFromFile("./son/son_menu.wav");
+
+  Sound sound_menu;
+  sound_menu.setBuffer(buffer);
+  sound_menu.setVolume(50.f);
+  sound_menu.play();
+  
   RenderWindow app(VideoMode(width,height),"Snake", Style::Titlebar);
   app.setFramerateLimit(60);
 
@@ -67,7 +77,7 @@ int main () {
   sprite.setTexture(fond);
 
   Texture map;
-  map.loadFromFile("./img/map.png");
+  map.loadFromFile("");
   Sprite sprite_map;
   sprite_map.setTexture(map);
   
@@ -98,12 +108,15 @@ int main () {
     while(check_key == 0)
       {
 	if (Keyboard::isKeyPressed(Keyboard::Space))
-	  check_key = 1;
+	  {
+	    sound_menu.stop();
+	    check_key = 1;
+	  }
 	app.clear();
 	app.draw(sprite);
 	app.display();
       }
-    if (timer.getElapsedTime().asMilliseconds()>125)
+    if (timer.getElapsedTime().asMilliseconds()>100)
       {
 	if(Action() == 1) app.close();
 	timer.restart();

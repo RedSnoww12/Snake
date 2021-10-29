@@ -6,7 +6,7 @@ NAME	:=	snake
 
 SRC	:=	./src/*.cpp
 
-LFLAGS	:=	-lsfml-graphics -lsfml-window -lsfml-system
+LFLAGS	:=	-lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
 
 OBJ	:=	$(SRC:.cpp=.o)
 
