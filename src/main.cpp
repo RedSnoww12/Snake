@@ -19,7 +19,7 @@ struct Snake{
 	   
 }s[100];
 
-struct Fruit{
+struct appleSprite{
   int x,y;
 }f;
 
@@ -62,6 +62,13 @@ int Action(sf::Sound *sound_sabre){
 
 
 int main () {
+
+  sf::Texture textureApple;
+  textureApple.loadFromFile("./img/fruit.png");
+
+  sf::Sprite appleSprite;
+  appleSprite.setTexture(textureApple);
+  appleSprite.scale(sf::Vector2f(0.06,0.06));
 
 
   int check_key = 0;
@@ -118,8 +125,8 @@ int main () {
   sf::RectangleShape snake(sf::Vector2f(size,size));
   snake.setFillColor(sf::Color::Green);
   
-  sf::RectangleShape fruit(sf::Vector2f(size,size));
-  fruit.setFillColor(sf::Color::Red);
+  //sf::RectangleShape appleSprite(sf::Vector2f(size,size));
+  //appleSprite.setFillColor(sf::Color::Red);
 
   sprite.setScale(0.5, 0.8);
   sprite_map.setScale(1,1.25);
@@ -216,8 +223,8 @@ int main () {
         app.draw(snake);
       }
       
-      fruit.setPosition(f.x*size, f.y*size);
-      app.draw(fruit);
+      appleSprite.setPosition(f.x*size, f.y*size);
+      app.draw(appleSprite);
       
       app.display();
     }
