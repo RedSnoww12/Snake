@@ -113,7 +113,7 @@ int main () {
 
 
   sf::Texture fond;
-  fond.loadFromFile("");
+  fond.loadFromFile("./img/gif.gif");
   sf::Sprite sprite;
   sprite.setTexture(fond);
 
@@ -146,6 +146,7 @@ int main () {
     if(choixUser == 0)
     {
       app.clear();
+      app.draw(sprite);
       menu.draw(app);
       app.display();
 
