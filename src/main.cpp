@@ -63,6 +63,18 @@ int Action(sf::Sound *sound_sabre){
 
 int main () {
 
+  sf::Texture texture_Head_Snake;
+  texture_Head_Snake.loadFromFile("./img/imgSnake/snakeTete.png");
+
+  sf::Texture texture_Body_Snake;
+  texture_Body_Snake.loadFromFile("./img/imgSnake/SnakeCorps.png");
+
+  sf::Texture texture_TailR_Snake;
+  texture_TailR_Snake.loadFromFile("./img/imgSnake/SnakeQueueDroite.png");
+
+  sf::Texture texture_TailL_Snake;
+  texture_TailL_Snake.loadFromFile("./img/imgSnake/SnakeQueueGauche.png");
+  
   sf::Texture textureApple;
   textureApple.loadFromFile("./img/fruit.png");
 
@@ -123,7 +135,15 @@ int main () {
   sprite_map.setTexture(map);
   
   sf::RectangleShape snake(sf::Vector2f(size,size));
-  snake.setFillColor(sf::Color::Green);
+  //snake.setFillColor(sf::Color::Green);
+
+  sf::RectangleShape snake_Body(sf::Vector2f(size,size));
+  //snake_body.setFillColor(sf::Color::Green);
+
+  sf::RectangleShape snake_TailR(sf::Vector2f(size,size));
+  //snake_tail.setFillColor(sf::Color::Green);
+
+  sf::RectangleShape snake_TailL(sf::Vector2f(size,size));
   
   //sf::RectangleShape appleSprite(sf::Vector2f(size,size));
   //appleSprite.setFillColor(sf::Color::Red);
@@ -140,7 +160,13 @@ int main () {
 
   int musiqueIsPlaying = 0;
   int choixUser=0;
-  
+
+  snake.setTexture(&texture_Head_Snake);
+  snake_Body.setTexture(&texture_Body_Snake);
+  snake_TailR.setTexture(&texture_TailR_Snake);
+  snake_TailL.setTexture(&texture_TailL_Snake);
+  int check_move = 0;
+  int k = 0;
   while(app.isOpen()) {
 
     if(choixUser == 0)
@@ -218,32 +244,52 @@ int main () {
       
       app.clear();
       app.draw(sprite_map);
-      for (int i = 0; i < num; i++) 
+      
+      for (int i = 0; i < 1; i++) 
       {
         snake.setPosition(s[i].x*size, s[i].y*size);
-        app.draw(snake);
+	app.draw(snake);
       }
+
+      for (int i = 1; i < num; i++) 
+      {
+	snake_Body.setPosition(s[i].x*size, s[i].y*size);
+	app.draw(snake_Body);
+      }
+
+      k = num;
+      if (dir == 3)
+	snake_TailR.setTexture(&texture_TailL_Snake);
+      if (dir == 1)
+	snake_TailR.setTexture(&texture_TailR_Snake);
+      while (k <= num)
+      {
+	snake_TailR.setPosition(s[k].x*size, s[k].y*size);
+	
+	app.draw(snake_TailR);
+	k++;
+	}
       
       appleSprite.setPosition(f.x*size, f.y*size);
       app.draw(appleSprite);
       
       app.display();
     }
-
+    
     if (score==130 && check_key == 1)
-    {
-      sound_phase1.stop();
-      sound_phase2.play();
-
-      map.loadFromFile("./img/maxresdefault.jpg");
-      sprite_map.setTexture(map);
-      app.clear();
-      app.draw(sprite_map);
-      app.display();
-
-      TIME_SNAKE = TIME_SNAKE - 40;
-      check_key = 2;
-    }
+      {
+	sound_phase1.stop();
+	sound_phase2.play();
+	
+	map.loadFromFile("./img/maxresdefault.jpg");
+	sprite_map.setTexture(map);
+	app.clear();
+	app.draw(sprite_map);
+	app.display();
+	
+	TIME_SNAKE = TIME_SNAKE - 40;
+	check_key = 2;
+      }
 
     if (score==260 && check_key == 2)
     {
