@@ -3,65 +3,24 @@
 #include <iostream>
 #include <cstdlib>
 #include "../includes/Menu.hpp"
+#include "../includes/Structure.hpp"
+#include "../includes/Action.hpp"
 #include <stdio.h>
 
-int size = 30;
-int width = size*size, height = size*size;
-int num = 3;
-int dir = 1;
-int score = 0;
-int TIME_SNAKE = 100;
-
-
-struct Snake{
-
-  int x = 0, y = 0;
-	   
-}s[100];
-
-struct appleSprite{
-  int x,y;
-}f;
-
-int Action(sf::Sound *sound_sabre){
-
-  
-  for(int i = num; i>0 ; i--){
-    
-    s[i].x = s[i-1].x;
-    s[i].y = s[i-1].y;
-      
-  }
-
-  if (dir == 0) s[0].y -= 1;
-  if (dir == 1) s[0].x += 1;
-  if (dir == 2) s[0].y += 1;
-  if (dir == 3) s[0].x -= 1;
-  
-  if (s[0].x == f.x && s[0].y == f.y)
-    {
-      sound_sabre->play();
-      num = num + 1;
-      f.x = rand()%size;
-      f.y = rand()%size;
-      score = score + 10;
-    }
-
-  if (s[0].x < 0) s[0].x = size;
-  if (s[0].x > size) s[0].x = 0;
-  if (s[0].y < 0) s[0].y = size;
-  if (s[0].y > size) s[0].y = 0;
-
-  for(int i = 1; i<num; i++)
-    {
-      if (s[0].x == s[i].x && s[0].y == s[i].y) return 1;
-    }
-  
-  return 0;
-}
 
 
 int main () {
+
+  int size = 30;
+  int width = size*size, height = size*size;
+  int num = 3;
+  int dir = 1;
+  int score = 0;
+  int TIME_SNAKE = 100;
+
+  Snake s[100];
+
+  appleSprite f;
 
   sf::Texture texture_Head_Snake;
   texture_Head_Snake.loadFromFile("./img/imgSnake/snakeTete.png");
@@ -229,7 +188,7 @@ int main () {
 
       if (timer.getElapsedTime().asMilliseconds()>TIME_SNAKE)
         {
-          if(Action(&sound_sabre) == 1) app.close();
+          if(Action(&sound_sabre, s, &f, &num, &dir, size, &score) == 1) app.close();
           timer.restart();
         }
       
