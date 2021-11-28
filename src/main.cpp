@@ -19,6 +19,7 @@ int main () {
   int score = 0;
   int TIME_SNAKE = 100;
   int pauseCheck = 0;
+  int game_over = 0;
 
   Snake s[100];
 
@@ -38,6 +39,13 @@ int main () {
   
   sf::Texture textureApple;
   textureApple.loadFromFile("./img/fruit.png");
+
+  sf::Texture textureOver;
+  textureOver.loadFromFile("./img/gameOver.jpg");
+  sf::Sprite gameOver;
+  gameOver.setTexture(textureOver);
+
+  gameOver.setScale(0.5,1);
 
   sf::Sprite appleSprite;
   appleSprite.setTexture(textureApple);
@@ -204,32 +212,43 @@ int main () {
 
           if(pauseCheck == 0)
           {
-            if(event.type == sf::Event::KeyPressed)
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
             {
-              if(event.key.code == sf::Keyboard::Up)
-              {
-                pause.MoveUp();
-              }
-              else if(event.key.code == sf::Keyboard::Down)
-              {
-                pause.MoveDown();
-              }
-
-              if(event.key.code == sf::Keyboard::Enter)
-              {
-                if(pause.GetPressedItem() == 0) pauseCheck = 1;
-                else if(pause.GetPressedItem() == 1) pauseCheck = 2;
-
-              }
+              pauseCheck = 1;
             }
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+            {
+              app.clear();
+              app.close();
+            }
+
           }
         }
+        app.clear();
+        app.display();
         sound_phase1.play();
       } 
 
       if (timer.getElapsedTime().asMilliseconds()>TIME_SNAKE)
         {
-          if(Action(&sound_sabre, s, &f, &num, &dir, size, &score) == 1) app.close();
+          if(Action(&sound_sabre, s, &f, &num, &dir, size, &score) == 1)
+          {
+            sound_phase1.stop();
+
+            while (game_over == 0)
+            {
+              app.clear();
+              app.draw(gameOver);
+              app.display();
+              if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+              {
+                app.clear();
+                app.close();
+                exit(0);
+              }
+            }
+            
+          }
           timer.restart();
         }
       

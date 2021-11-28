@@ -16,11 +16,6 @@ Pause::Pause(float width, float height)
 	pause[0].setString("Resume");
 	pause[0].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS_PAUSE + 1) * 1));
 
-	pause[1].setFont(font);
-	pause[1].setFillColor(sf::Color::White);
-	pause[1].setString("Exit");
-	pause[1].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS_PAUSE + 1) * 2));
-
 	selectedIndex = 0;
 }
 
