@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "../includes/Menu.hpp"
+#include "../includes/Pause.hpp"
 #include "../includes/Structure.hpp"
 #include "../includes/Action.hpp"
 #include <stdio.h>
@@ -17,6 +18,7 @@ int main () {
   int dir = 1;
   int score = 0;
   int TIME_SNAKE = 100;
+  int pauseCheck = 0;
 
   Snake s[100];
 
@@ -62,21 +64,13 @@ int main () {
 
   sf::Sound sound_menu;
   sf::Sound sound_phase1;
-  sf::Sound sound_phase2;
-  sf::Sound sound_phaseF;
+
   sound_menu.setBuffer(buffer);
   sound_menu.setVolume(60.f);
   sound_menu.play();
 
   sound_phase1.setBuffer(buffer1);
   sound_phase1.setVolume(40.f);
-  
-  sound_phase2.setBuffer(buffer2);
-  sound_phase2.setVolume(40.f);
-
-  sound_phaseF.setBuffer(bufferF);
-  sound_phaseF.setVolume(40.f);
-  
   
   sf::RenderWindow app(sf::VideoMode(width,height),"Snake");
   app.setFramerateLimit(60);
@@ -116,6 +110,7 @@ int main () {
   f.y = rand()%size;
 
   Menu menu(900,900);
+  Pause pause(900,900);
 
   int musiqueIsPlaying = 0;
   int choixUser=0;
@@ -126,6 +121,7 @@ int main () {
   snake_TailL.setTexture(&texture_TailL_Snake);
   int check_move = 0;
   int k = 0;
+
   while(app.isOpen()) {
 
     if(choixUser == 0)
@@ -152,6 +148,7 @@ int main () {
           {
             menu.MoveDown();
           }
+
           if(event.key.code == sf::Keyboard::Enter)
           {
             if(menu.GetPressedItem() == 0) choixUser = 1;
@@ -168,11 +165,20 @@ int main () {
         case sf::Event::Closed:
           app.close();
           break;
+        
+        case sf::Event::KeyPressed:
+          if (event.key.code == sf::Keyboard::Space)
+          {
+            
+          }
+          
 
         case sf::Event::KeyReleased:
           if(event.key.code == sf::Keyboard::Escape)
             app.close();
           break;
+
+        
       }
     }
 
@@ -185,6 +191,41 @@ int main () {
         check_key = 1;
       }
       
+      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+      {
+        sound_phase1.pause();
+        pauseCheck = 0;
+        pause.draw(app);
+        app.display();
+        
+        while (pauseCheck != 1)
+        {
+          
+
+          if(pauseCheck == 0)
+          {
+            if(event.type == sf::Event::KeyPressed)
+            {
+              if(event.key.code == sf::Keyboard::Up)
+              {
+                pause.MoveUp();
+              }
+              else if(event.key.code == sf::Keyboard::Down)
+              {
+                pause.MoveDown();
+              }
+
+              if(event.key.code == sf::Keyboard::Enter)
+              {
+                if(pause.GetPressedItem() == 0) pauseCheck = 1;
+                else if(pause.GetPressedItem() == 1) pauseCheck = 2;
+
+              }
+            }
+          }
+        }
+        sound_phase1.play();
+      } 
 
       if (timer.getElapsedTime().asMilliseconds()>TIME_SNAKE)
         {
@@ -207,27 +248,27 @@ int main () {
       for (int i = 0; i < 1; i++) 
       {
         snake.setPosition(s[i].x*size, s[i].y*size);
-	app.draw(snake);
+	      app.draw(snake);
       }
 
       for (int i = 1; i < num; i++) 
       {
-	snake_Body.setPosition(s[i].x*size, s[i].y*size);
-	app.draw(snake_Body);
+        snake_Body.setPosition(s[i].x*size, s[i].y*size);
+        app.draw(snake_Body);
       }
 
       k = num;
       if (dir == 3)
-	snake_TailR.setTexture(&texture_TailL_Snake);
+	      snake_TailR.setTexture(&texture_TailL_Snake);
       if (dir == 1)
-	snake_TailR.setTexture(&texture_TailR_Snake);
+	      snake_TailR.setTexture(&texture_TailR_Snake);
       while (k <= num)
       {
-	snake_TailR.setPosition(s[k].x*size, s[k].y*size);
+	      snake_TailR.setPosition(s[k].x*size, s[k].y*size);
 	
-	app.draw(snake_TailR);
-	k++;
-	}
+	      app.draw(snake_TailR);
+        k++;
+      }
       
       appleSprite.setPosition(f.x*size, f.y*size);
       app.draw(appleSprite);
@@ -237,23 +278,27 @@ int main () {
     
     if (score==130 && check_key == 1)
       {
-	sound_phase1.stop();
-	sound_phase2.play();
-	
-	map.loadFromFile("./img/maxresdefault.jpg");
-	sprite_map.setTexture(map);
-	app.clear();
-	app.draw(sprite_map);
-	app.display();
-	
-	TIME_SNAKE = TIME_SNAKE - 40;
-	check_key = 2;
+        sound_phase1.stop();
+        sound_phase1.resetBuffer();
+        sound_phase1.setBuffer(buffer2);
+        sound_phase1.play();
+        
+        map.loadFromFile("./img/maxresdefault.jpg");
+        sprite_map.setTexture(map);
+        app.clear();
+        app.draw(sprite_map);
+        app.display();
+        
+        TIME_SNAKE = TIME_SNAKE - 40;
+        check_key = 2;
       }
 
     if (score==260 && check_key == 2)
     {
-      sound_phase2.stop();
-      sound_phaseF.play();
+      sound_phase1.stop();
+      sound_phase1.resetBuffer();
+      sound_phase1.setBuffer(bufferF);
+      sound_phase1.play();
 
       map.loadFromFile("./img/final.jpg");
       sprite_map.setTexture(map);

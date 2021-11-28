@@ -2,7 +2,7 @@
 #define DEF_STRUCTURE_HPP
     struct Snake{
 
-    int x = -20, y = -20;
+    int x = -20, y = 0;
         
     };
 
